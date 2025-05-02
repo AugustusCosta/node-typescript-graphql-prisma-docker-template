@@ -1,0 +1,49 @@
+{
+  "name": "pet-owner-api",
+  "version": "1.0.0",
+  "description": "API to manage owners and pets using TypeScript, Node.js, Express, GraphQL",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "ts-node-dev src/index.ts",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": [
+    "typescript",
+    "nodejs",
+    "graphql",
+    "express",
+    "api",
+    "jest",
+    "testing"
+  ],
+  "author": "Augustus Costa",
+  "license": "MIT",
+  "dependencies": {
+    "@apollo/server": "^4.12.0",
+    "@prisma/client": "^6.7.0",
+    "class-validator": "^0.14.1",
+    "cors": "^2.8.5",
+    "express": "4.18.2",
+    "express-graphql": "^0.12.0",
+    "graphql": "^16.11.0",
+    "graphql-tag": "^2.12.6",
+    "reflect-metadata": "^0.2.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.8.3",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "4.17.17",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^22.15.3",
+    "@types/supertest": "^6.0.3",
+    "@types/uuid": "^10.0.0",
+    "jest": "^29.7.0",
+    "prisma": "^6.7.0",
+    "supertest": "^7.1.0",
+    "ts-jest": "^29.3.2"
+  }
+}
