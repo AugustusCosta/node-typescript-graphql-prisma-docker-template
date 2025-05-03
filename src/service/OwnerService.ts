@@ -19,4 +19,16 @@ export class OwnerService {
       where: { id },
     });
   }
+
+  async findByPet(petId: string) {
+    return prisma.owner.findFirst({
+      where: {
+        pets: {
+          some: {
+            id: petId,
+          },
+        },
+      },
+    });
+  }
 }

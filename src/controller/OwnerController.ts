@@ -46,4 +46,21 @@ export class OwnerController {
       return res.status(500).json({ error: 'Internal server error' });
     }
   }
+
+  static async getOwnerByPet(req: Request, res: Response) {
+      const { petId } = req.params;
+  
+      try {
+        const owner = await ownerService.findByPet(petId);
+
+        if (!owner) {
+          return res.status(404).json({ error: 'Owner not found' });
+        }
+
+        return res.status(200).json(owner);
+      } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+    }
 }

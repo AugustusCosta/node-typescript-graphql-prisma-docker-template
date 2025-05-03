@@ -1,6 +1,7 @@
 import request from 'supertest';
 import express from 'express';
 import { OwnerController } from '../../../controller/OwnerController';
+import { PetController } from '../../../controller/PetController';
 import { prisma } from '../../../database/prisma';
 
 const app = express();
@@ -8,9 +9,16 @@ app.use(express.json());
 app.post('/api/owners', OwnerController.createOwner);
 app.get('/api/owners', OwnerController.getOwners);
 app.get('/api/owners/:id', OwnerController.getOwnerById);
+app.get('/api/owners/pet/:petId', OwnerController.getOwnerByPet);
+app.post('/api/pets', PetController.createPet);
 
 describe('OwnerController (REST)', () => {
   beforeEach(async () => {
+    await prisma.pet.deleteMany();
+    await prisma.owner.deleteMany();
+  });
+
+  afterAll(async () => {
     await prisma.pet.deleteMany();
     await prisma.owner.deleteMany();
   });
@@ -48,4 +56,23 @@ describe('OwnerController (REST)', () => {
 
     expect(response.status).toBe(404);
   });
+
+  it('should find owner by petId', async () => {
+      const responseOwner = await request(app)
+        .post('/api/owners')
+        .send({ name: 'Owner2', email: 'owner2@example.com' });
+      
+      const ownerId = responseOwner.body.id;
+
+      const responsePet = await request(app)
+            .post('/api/pets')
+            .send({ name: 'Rex', type: 'Dog', ownerId });
+      
+      const petId = responsePet.body.id;
+  
+      const response = await request(app).get(`/api/owners/pet/${petId}`);
+  
+      expect(response.status).toBe(200);
+      expect((response.body.id)).toEqual(ownerId);
+    });
 });
