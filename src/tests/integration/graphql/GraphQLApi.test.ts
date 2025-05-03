@@ -26,6 +26,11 @@ beforeEach(async () => {
   await prisma.owner.deleteMany();
 });
 
+afterAll(async () => {
+  await prisma.pet.deleteMany();
+  await prisma.owner.deleteMany();
+});
+
 describe('GraphQL API (Integration Tests)', () => {
   let createdOwnerId: string;
 
@@ -245,5 +250,39 @@ describe('GraphQL API (Integration Tests)', () => {
     expect(response.status).toBe(200);
     expect(Array.isArray(response.body.data.ownerPets)).toBe(true);
     expect(response.body.data.ownerPets).toEqual([]);
+  });
+
+  it('should fetch owner by petId', async () => {
+    const owner = await prisma.owner.create({
+      data: {
+        name: 'OwnerForPetsQuery',
+        email: 'query@example.com',
+      }
+    });
+
+    const pet = await prisma.pet.create({
+      data: {
+        name: 'Bella',
+        type: 'Cat',
+        ownerId: owner.id,
+      }
+    });
+
+    const query = {
+      query: `
+        query {
+          petOwner(petId: "${pet.id}") {
+            id
+            name
+            email
+          }
+        }
+      `
+    };
+
+    const response = await request(app).post('/graphql').send(query);
+
+    expect(response.status).toBe(200);
+    expect((response.body.data.petOwner.id)).toEqual(owner.id);
   });
 });

@@ -23,6 +23,7 @@ async function startServer() {
   app.post('/api/owners', OwnerController.createOwner);
   app.get('/api/owners', OwnerController.getOwners);
   app.get('/api/owners/:id', OwnerController.getOwnerById);
+  app.get('/api/owners/pet/:petId', OwnerController.getOwnerByPet);
 
   app.post('/api/pets', PetController.createPet);
   app.get('/api/pets', PetController.getPets);

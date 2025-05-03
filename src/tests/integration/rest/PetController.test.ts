@@ -23,6 +23,11 @@ describe('PetController (REST)', () => {
     ownerId = owner.id;
   });
 
+  afterAll(async () => {
+    await prisma.pet.deleteMany();
+    await prisma.owner.deleteMany();
+  });
+
   it('should create a new pet', async () => {
     const response = await request(app)
       .post('/api/pets')

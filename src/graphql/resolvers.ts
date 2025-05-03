@@ -16,6 +16,9 @@ export const resolvers = {
     ownerPets: async (_: any, args: { ownerId: string }) => {
       return await petService.findByOwner(args.ownerId);
     },
+    petOwner: async (_: any, args: { petId: string }) => {
+      return await ownerService.findByPet(args.petId);
+    },
   },
   Mutation: {
     createOwner: async (_: any, args: { input: { name: string; email: string } }) => {

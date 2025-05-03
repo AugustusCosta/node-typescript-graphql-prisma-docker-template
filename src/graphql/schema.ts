@@ -31,6 +31,7 @@ export const typeDefs = gql`
     owners: [Owner]
     pets: [Pet]
     ownerPets(ownerId: ID!): [Pet]
+    petOwner(petId: ID!): Owner
   }
 
   type Mutation {
